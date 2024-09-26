@@ -22,6 +22,7 @@ impl<NumWords: ArrayLength + Send + Sync, NumBytes: ArrayLength + Send + Sync> S
 {
     fn execute(&self, ctx: &mut SyscallContext, src: u32, dst: u32) -> Option<u32> {
         let (read, read_bytes) = ctx.mr_slice(src, NumWords::USIZE);
+        ctx.clk += 1;
         let write = ctx.mw_slice(dst, &read_bytes);
 
         let event = MemCopyEvent {
