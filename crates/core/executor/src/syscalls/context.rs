@@ -57,6 +57,7 @@ impl<'a, 'b> SyscallContext<'a, 'b> {
     /// Read a word from memory.
     pub fn mr(&mut self, addr: u32) -> (MemoryReadRecord, u32) {
         let record = self.rt.mr(addr, self.current_shard, self.clk);
+        self.clk = self.clk + 1;
         (record, record.value)
     }
 
